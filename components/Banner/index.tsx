@@ -7,7 +7,7 @@ const Banner = (props: Props) => {
     return (
         <>
             <section className="w-full bg-green-100">
-                <div className="w-4/5 flex justify-between items-center h-[900px] mx-auto">
+                <div className="w-4/5 flex justify-between items-center h-[90vh] mx-auto">
                     <div className="flex flex-col gap-10">
                         <h6 className="text-6xl text-white-100 font-extralight leading-snug">
                             Get a 3D Figurine <br />
