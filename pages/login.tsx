@@ -1,32 +1,46 @@
 import Nav from "../components/Nav"
 
 import type { FormEvent } from "react"
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "../src/utils/firebaseClient"
-import { browserSessionPersistence } from "firebase/auth"
+import { getAuth, GoogleAuthProvider, signInWithRedirect } from "~/utils/firebaseClient"
+import { browserLocalPersistence, setPersistence } from "firebase/auth"
+import { useAuthState } from "react-firebase-hooks/auth"
 
-const login = () => {
+const Login = () => {
+
+	const auth = getAuth()
+	const [user, loading] = useAuthState(auth)
 
 	const handleLogin = async (e: FormEvent) => {
-		// login via Google firebase
 		e.preventDefault()
-		const auth = getAuth()
 		const provider = new GoogleAuthProvider()
-		const response = await signInWithPopup(auth, provider)
-		auth.setPersistence(browserSessionPersistence)
-		console.log(auth.currentUser, response)
+		try {
+			await signInWithRedirect(auth, provider)
+			setPersistence(auth, browserLocalPersistence);
+		} catch (error) {
+			console.error(error)
+		}
 	}
+
 
 	return (<>
 		<Nav />
 		<div className="flex justify-center">
 			<main className="mt-48">
-				<h1>Pineapple Login</h1>
-				<p>Please sign-in:</p>
-				<button className="bg-gray-200" onClick={handleLogin}>Sign in</button>
+				<h1>Ditto-Dolls Login</h1>
+				{
+					!loading ?
+						user ?
+							<div>
+								<p>Welcome {user.displayName}</p>
+								<button onClick={() => auth.signOut()}>Lougout</button>
+							</div> :
+							<button onClick={handleLogin}>Sign in with Google</button>
+						: <p>loading...</p>
+				}
 			</main>
 		</div>
 	</>
 	)
 }
 
-export default login
+export default Login

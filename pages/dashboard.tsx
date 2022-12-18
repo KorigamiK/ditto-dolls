@@ -7,13 +7,14 @@ import Link from "next/link"
 
 const Dashboard = () => {
 
-	const [user, loading] = useAuthState(getAuth())
+	const [user, loading, error] = useAuthState(getAuth())
 
 	return <>
 		<Nav />
 		<div className="flex justify-center">
 			<main className="mt-48">
 				<h1>Dashboard</h1>
+				{error?.message && <p>{error.message}</p>}
 				{
 					!loading ?
 						user ?

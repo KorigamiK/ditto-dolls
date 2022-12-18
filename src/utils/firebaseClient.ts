@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth as firebaseGetAuth, } from "firebase/auth";
 
 const clientCredentials = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,5 +13,5 @@ const clientCredentials = {
 
 export const app = initializeApp(clientCredentials);
 export const db = getFirestore(app);
-
-export { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+export const getAuth = () => firebaseGetAuth(app);
+export { signInWithPopup, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "firebase/auth";
