@@ -11,6 +11,11 @@ import Others from "../components/Others";
 import Detailing from "../components/Detailing";
 import SeeMore from "../components/SeeMore";
 import ChooseBest from "../components/ChooseBest";
+import RealisticLooking from "../components/RealisticLooking";
+import ImaginationPrinted from "../components/ImaginationPrinted";
+import Footer from "../components/Footer";
+import FAQ from "../components/Faq";
+import Virtual from "../components/Virtual";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +31,11 @@ export default function Home() {
             <Detailing />
             <SeeMore />
             <ChooseBest />
+            <RealisticLooking />
+            <ImaginationPrinted />
+            <Virtual />
+            <FAQ />
+            <Footer />
         </>
     );
 }
