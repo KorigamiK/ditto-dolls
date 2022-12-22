@@ -16,6 +16,7 @@ import ImaginationPrinted from "../components/ImaginationPrinted";
 import Footer from "../components/Footer";
 import FAQ from "../components/Faq";
 import Virtual from "../components/Virtual";
+import ReviewSection from "../components/ReviewSection";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,6 +36,7 @@ export default function Home() {
             <ImaginationPrinted />
             <Virtual />
             <FAQ />
+            <ReviewSection />
             <Footer />
         </>
     );

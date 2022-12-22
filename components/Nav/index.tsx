@@ -6,7 +6,7 @@ type Props = {};
 
 const Nav = (props: Props) => {
     return (
-        <div className="fixed top-0 bg-green-200 text-white-100 w-full">
+        <div className="fixed top-0 bg-green-200 text-white-100 w-full z-[100000]">
             <div className="flex justify-between items-center w-4/5 mx-auto py-5">
                 <div className="flex items-center gap-5 relative">
                     <img
