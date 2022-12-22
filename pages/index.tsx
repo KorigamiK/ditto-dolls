@@ -1,6 +1,5 @@
-import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "@next/font/google";
+// @ts-ignore
 import styles from "../styles/Home.module.css";
 import Nav from "../components/Nav";
 import Banner from "../components/Banner";
