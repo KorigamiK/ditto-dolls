@@ -28,6 +28,7 @@ const Login = (props: Props) => {
             console.error(error);
         }
     };
+    console.log(user);
     return (
         <>
             <Nav />
