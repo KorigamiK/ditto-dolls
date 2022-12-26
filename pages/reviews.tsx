@@ -6,14 +6,21 @@ import FaqItem from "../components/Faq/FaqItem";
 import Star from "../components/Star";
 import Link from "next/link";
 import AllReviews from "../components/Reviews/AllReviews";
+import AddReviews from "../components/Reviews/AddReviews";
+import ReviewModel from "../components/Reviews/ReviewModel";
 
 type Props = {};
 
 const Reviews = (props: Props) => {
+    const [showReviewModel, setShowReviewModel] = useState(false);
     return (
         <>
             <Nav />
-            <div className="py-16 mt-20 bg-white-100">
+            <div className="py-32 mt-20 bg-white-100">
+                <ReviewModel
+                    showModel={showReviewModel}
+                    setShowReviewModel={setShowReviewModel}
+                />
                 <div className="w-4/5 mx-auto">
                     <div className="flex w-full justify-between">
                         <div className="flex gap-6">
@@ -40,7 +47,7 @@ const Reviews = (props: Props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="border-[2px] border-green-300 rounded-lg self-start p-4 ">
+                        <div className="border-[2px] border-green-300/50 rounded-lg self-start p-4 ">
                             <Link href={"/"}>
                                 <div className="flex gap-2 items-center">
                                     <img
@@ -58,6 +65,8 @@ const Reviews = (props: Props) => {
                         </div>
                     </div>
                     <div className="h-[100px]"></div>
+                    <AddReviews setShowReviewModel={setShowReviewModel} />
+                    <div className="h-8"></div>
                     <AllReviews />
                 </div>
             </div>
