@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Star from "../Star";
 
@@ -24,6 +25,16 @@ const ReviewItem = (props: Props) => {
                 {props.reviewDes}
             </p>
             <div className="h-[2px] bg-black/10 w-full"></div>
+            <div className="flex justify-between items-center">
+                <div className="flex gap-3 items-center">
+                    <div className="h-10 aspect-square bg-black/10"></div>
+                    <h3>Single miniature</h3>
+                </div>
+                <div className="flex gap-3">
+                    <img src="/images/icons/like.png" alt="like" />
+                    <img src="/images/icons/dislike.png" alt="dislike" />
+                </div>
+            </div>
         </div>
     );
 };
