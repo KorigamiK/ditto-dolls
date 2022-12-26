@@ -11,7 +11,3 @@ npm run dev
 # or
 yarn dev
 ```
-
-## Learn More
-
-## Deploy on Vercel
