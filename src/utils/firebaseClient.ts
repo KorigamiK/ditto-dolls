@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { collection, getFirestore } from "firebase/firestore";
+import type { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { getAuth as firebaseGetAuth, } from "firebase/auth";
+import { Review, User } from "./schema";
 
 const clientCredentials = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -11,7 +13,23 @@ const clientCredentials = {
 	appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+export function assignTypes<T extends object>() {
+	return {
+		toFirestore(doc: T): DocumentData {
+			return doc
+		},
+		fromFirestore(snapshot: QueryDocumentSnapshot): T {
+			return snapshot.data()! as T
+		},
+	}
+}
+
+
 export const app = initializeApp(clientCredentials);
 export const db = getFirestore(app);
 export const getAuth = () => firebaseGetAuth(app);
+export const reviewsCollection = collection(db, "reviews").withConverter(assignTypes<Review>());
+export const userCollection = collection(db, "users").withConverter(assignTypes<User>());
+
+export { getDoc, getDocs } from "firebase/firestore"
 export { signInWithPopup, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "firebase/auth";

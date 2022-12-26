@@ -1,45 +1,33 @@
 import React from "react";
+import { useCollection, useDocument } from "react-firebase-hooks/firestore";
+import { useReviews } from "~/hooks/useReviews";
+import { useUsers } from "~/hooks/useUsers";
+import { userCollection } from "~/utils/firebaseClient";
 import ReviewItem from "./ReviewItem";
 
 type Props = {};
 
-const AllReviews = (props: Props) => {
-    const reviews = [
-        {
-            name: "Joe taylor",
-            reviewCount: 4,
-            ratingCount: 4,
-            description:
-                "Thank you 3d miniature team for such an beautiful and awesome statue..... thanks to the team for contacting, coordinating and fast delivery too....very happy and we like to come back for more surely....👍 I appreciate all the team and all the best for future too... Thank you once again",
-        },
-        {
-            name: "Joe taylor",
-            reviewCount: 4,
-            ratingCount: 4,
-            description:
-                "Thank you 3d miniature team for such an beautiful and awesome statue..... thanks to the team for contacting, coordinating and fast delivery too....very happy and we like to come back for more surely....👍 I appreciate all the team and all the best for future too... Thank you once again",
-        },
-        {
-            name: "Joe taylor",
-            reviewCount: 4,
-            ratingCount: 4,
-            description:
-                "Thank you 3d miniature team for such an beautiful and awesome statue..... thanks to the team for contacting, coordinating and fast delivery too....very happy and we like to come back for more surely....👍 I appreciate all the team and all the best for future too... Thank you once again",
-        },
-    ];
-    return (
-        <div className="flex flex-col gap-10">
-            {reviews.map((item, idx) => (
-                <ReviewItem
-                    name={item.name}
-                    ratingCount={item.ratingCount}
-                    reviewCount={item.reviewCount}
-                    reviewDes={item.description}
-                    key={idx}
-                />
-            ))}
-        </div>
-    );
+const AllReviews = (_props: Props) => {
+
+	const { allReviews, loading } = useReviews();
+	const { allUsers, loading: userLoading } = useUsers();
+	console.log(allReviews, allUsers);
+
+	return (
+		<div className="flex flex-col gap-10">
+
+			{
+				// /*
+				loading && userLoading ? <h1>Loading...</h1>
+					: allReviews?.map((review) => {
+						return (
+							<ReviewItem key={review.path} name={allUsers?.find(item => item.id === review.author.id).displayName || 'hi'} ratingCount={review.stars} reviewDes={review.body} reviewCount={5} />
+						)
+					})
+				// */
+			}
+		</div>
+	);
 };
 
 export default AllReviews;
