@@ -10,21 +10,33 @@ import Others from "../components/Others";
 import Detailing from "../components/Detailing";
 import SeeMore from "../components/SeeMore";
 import ChooseBest from "../components/ChooseBest";
+import RealisticLooking from "../components/RealisticLooking";
+import ImaginationPrinted from "../components/ImaginationPrinted";
+import Footer from "../components/Footer";
+import FAQ from "../components/Faq";
+import Virtual from "../components/Virtual";
+import ReviewSection from "../components/ReviewSection";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-	return (
-		<>
-			<Nav />
-			<Banner />
-			<VideoDisplay />
-			<SimpleSteps />
-			<CustomizeNow />
-			<Others />
-			<Detailing />
-			<SeeMore />
-			<ChooseBest />
-		</>
-	);
+    return (
+        <>
+            <Nav />
+            <Banner />
+            <VideoDisplay />
+            <SimpleSteps />
+            <CustomizeNow />
+            <Others />
+            <Detailing />
+            <SeeMore />
+            <ChooseBest />
+            <RealisticLooking />
+            <ImaginationPrinted />
+            <Virtual />
+            <FAQ />
+            <ReviewSection />
+            <Footer />
+        </>
+    );
 }
