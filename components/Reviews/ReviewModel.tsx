@@ -1,4 +1,4 @@
-import React, { SetStateAction, Dispatch, useState } from "react";
+import { SetStateAction, Dispatch, useState, FormEvent } from "react";
 import Star from "../Star";
 import { User } from "firebase/auth";
 import { userCollection, reviewsCollection } from "~/utils/firebaseClient";
@@ -14,17 +14,20 @@ type Props = {
 const ReviewModel = (props: Props) => {
     const [stars, setStars] = useState(3);
     const [review, setReview] = useState("");
+    const [productType, setProductType] = useState("miniature");
 
     if (!props.showModel) return <></>;
 
     const addReviewHandler = async () => {
+
         if (!props.user) return;
         await setDoc(doc(reviewsCollection), {
             body: review,
             likes: 2,
-            productType: "miniature",
+            productType,
             stars: stars,
             author: doc(userCollection, props.user.uid)
+
         });
     };
 
@@ -53,20 +56,30 @@ const ReviewModel = (props: Props) => {
                         rows={6}
                         onChange={(e) => setReview(e.target.value)}
                     />
-                    {
-                        props.user ?
-                            <button
-                                className="py-2 px-3 text-lg font-extralight text-white-50 bg-green-50 rounded-lg"
-                                onClick={() => {
-                                    addReviewHandler();
-                                    props.setShowReviewModel(false);
-                                }}
-                            >
-                                Submit{" "}
-                            </button>
-                            : <h3 className="text-md"> <Link href='/signup'> Login</Link> to submit a review</h3>
-                    }
                 </div>
+
+                <div className="bg-white-50 p-5 border-[2px] rounded-lg border-black/10 flex flex-col gap-3">
+                    <h2 className="text-[#143A56] text-xl font-medium">
+                        What did you buy?
+                    </h2>
+                    <h3 className="text-md">Product Type</h3>
+                    <input type="text" onChange={(e) => setProductType(e.target.value)} placeholder="miniature" className="border-[2px] ml-2 px-2 py-1 rounded-lg border-black/10" name="productType" id="productType" />
+                </div>
+
+                {
+                    props.user ?
+                        <button
+                            className="py-2 px-3 text-lg font-extralight text-white-50 bg-green-50 rounded-lg"
+                            type='submit'
+                            onClick={() => {
+                                addReviewHandler();
+                                props.setShowReviewModel(false);
+                            }}
+                        >
+                            Submit{" "}
+                        </button>
+                        : <h3 className="text-md"> <Link href='/signup'>Login</Link> to submit a review</h3>
+                }
             </div>
         </div>
     );

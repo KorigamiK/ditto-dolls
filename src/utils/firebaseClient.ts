@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { collection, getFirestore, doc } from "firebase/firestore";
+import { collection, getFirestore } from "firebase/firestore";
 import type { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { getAuth as firebaseGetAuth } from "firebase/auth";
 import { Review, User } from "./schema";
