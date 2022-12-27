@@ -1,13 +1,14 @@
 import React, { SetStateAction, Dispatch, useState } from "react";
 import Star from "../Star";
 import { User } from "firebase/auth";
-import { db } from "~/utils/firebaseClient";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { userCollection, reviewsCollection } from "~/utils/firebaseClient";
+import { doc, setDoc } from "firebase/firestore";
+import Link from "next/link";
 
 type Props = {
     showModel: boolean;
     setShowReviewModel: Dispatch<SetStateAction<boolean>>;
-    user: User;
+    user?: User | null;
 };
 
 const ReviewModel = (props: Props) => {
@@ -17,12 +18,13 @@ const ReviewModel = (props: Props) => {
     if (!props.showModel) return <></>;
 
     const addReviewHandler = async () => {
-        await setDoc(doc(collection(db, "reviews")), {
+        if (!props.user) return;
+        await setDoc(doc(reviewsCollection), {
             body: review,
             likes: 2,
             productType: "miniature",
             stars: stars,
-            author: `/users/${ props.user.uid }`,
+            author: doc(userCollection, props.user.uid)
         });
     };
 
@@ -51,15 +53,19 @@ const ReviewModel = (props: Props) => {
                         rows={6}
                         onChange={(e) => setReview(e.target.value)}
                     />
-                    <button
-                        className="py-2 px-3 text-lg font-extralight text-white-50 bg-green-50 rounded-lg"
-                        onClick={() => {
-                            addReviewHandler();
-                            props.setShowReviewModel(false);
-                        }}
-                    >
-                        Submit{" "}
-                    </button>
+                    {
+                        props.user ?
+                            <button
+                                className="py-2 px-3 text-lg font-extralight text-white-50 bg-green-50 rounded-lg"
+                                onClick={() => {
+                                    addReviewHandler();
+                                    props.setShowReviewModel(false);
+                                }}
+                            >
+                                Submit{" "}
+                            </button>
+                            : <h3 className="text-md"> <Link href='/signup'> Login</Link> to submit a review</h3>
+                    }
                 </div>
             </div>
         </div>

@@ -3,7 +3,6 @@ import { collection, getFirestore, doc } from "firebase/firestore";
 import type { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { getAuth as firebaseGetAuth } from "firebase/auth";
 import { Review, User } from "./schema";
-import "firebase/firestore";
 
 const clientCredentials = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -36,7 +35,7 @@ export const userCollection = collection(db, "users").withConverter(
 	assignTypes<User>()
 );
 
-export { getDoc, getDocs } from "firebase/firestore";
+export { getDoc, getDocs, doc, collection } from "firebase/firestore";
 
 export {
 	signInWithPopup,

@@ -1,12 +1,11 @@
 import type { DocumentReference } from "firebase/firestore";
 
 export interface Review {
-	author: DocumentReference;
+	author: DocumentReference<User>;
 	body: string;
 	likes: number;
 	stars: number;
 	productType: string;
-	path: string;
 }
 
 export interface User {
@@ -15,6 +14,7 @@ export interface User {
 	details: Details;
 	phoneNumber: null;
 	email: string;
+	displayName: string;
 }
 
 export interface Details {

@@ -9,8 +9,6 @@ import AllReviews from "../components/Reviews/AllReviews";
 import AddReviews from "../components/Reviews/AddReviews";
 import ReviewModel from "../components/Reviews/ReviewModel";
 
-import type { User } from "firebase/auth";
-import { useUsers } from "~/hooks/useUsers";
 import useAuth from "~/hooks/useAuth";
 
 type Props = {};
@@ -18,7 +16,6 @@ type Props = {};
 const Reviews = (_props: Props) => {
 	const [showReviewModel, setShowReviewModel] = useState(false);
 
-	const { allUsers, loading: userLoading } = useUsers();
 	const [user] = useAuth();
 
 	return (
@@ -28,7 +25,7 @@ const Reviews = (_props: Props) => {
 				<ReviewModel
 					showModel={showReviewModel}
 					setShowReviewModel={setShowReviewModel}
-					user={user as User}
+					user={user}
 				/>
 				<div className="w-4/5 mx-auto">
 					<div className="flex w-full justify-between">
@@ -76,7 +73,7 @@ const Reviews = (_props: Props) => {
 					<div className="h-[100px]"></div>
 					<AddReviews setShowReviewModel={setShowReviewModel} />
 					<div className="h-8"></div>
-					<AllReviews users={allUsers} loading={userLoading} />
+					<AllReviews />
 				</div>
 			</div>
 			<Footer />

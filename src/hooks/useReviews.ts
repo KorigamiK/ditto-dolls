@@ -8,7 +8,9 @@ export const useReviews = () => {
 	let allReviews: Review[] = [];
 
 	if (!loading && !error)
-		allReviews = reviews!.docs.map((review) => review.data());
+		allReviews = reviews!.docs.map((review) => {
+			return review.data()
+		});
 
 
 	return { allReviews, loading, error };
