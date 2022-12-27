@@ -10,9 +10,13 @@ export interface Review {
 }
 
 export interface User {
-	id: string;
-	displayName: string;
+	address: string;
+	name: string;
+	details: Details;
+	phoneNumber: null;
+	email: string;
 }
-export interface UserData {
+
+export interface Details {
 	username: string;
 }

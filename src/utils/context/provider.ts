@@ -1,9 +1,8 @@
 import createAppContext from '~/utils/context/createContext'
-import { UserData } from '../schema'
+import { User } from '../schema'
 
 type IContext = {
-	user: UserData;
+	user: Partial<User>;
 }
 
-export const { Provider, useStore } = createAppContext<IContext>({ user: { username: 'world' } })
-
+export const { Provider, useStore } = createAppContext<IContext>({ user: {} })

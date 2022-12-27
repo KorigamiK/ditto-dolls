@@ -2,7 +2,7 @@ import React, { SetStateAction, Dispatch, useState } from "react";
 import Star from "../Star";
 import { User } from "firebase/auth";
 import { db } from "~/utils/firebaseClient";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc } from "firebase/firestore";
 
 type Props = {
     showModel: boolean;
@@ -22,7 +22,7 @@ const ReviewModel = (props: Props) => {
             likes: 2,
             productType: "miniature",
             stars: stars,
-            author: `/users/${props.user.uid}`,
+            author: `/users/${ props.user.uid }`,
         });
     };
 

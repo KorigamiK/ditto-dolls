@@ -4,13 +4,14 @@ import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import Star from "../components/Star";
 import Link from "next/link";
+
 import AllReviews from "../components/Reviews/AllReviews";
 import AddReviews from "../components/Reviews/AddReviews";
 import ReviewModel from "../components/Reviews/ReviewModel";
+
+import type { User } from "firebase/auth";
 import { useUsers } from "~/hooks/useUsers";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { getAuth } from "~/utils/firebaseClient";
-import { User } from "firebase/auth";
+import useAuth from "~/hooks/useAuth";
 
 type Props = {};
 
@@ -18,7 +19,7 @@ const Reviews = (_props: Props) => {
 	const [showReviewModel, setShowReviewModel] = useState(false);
 
 	const { allUsers, loading: userLoading } = useUsers();
-	const [user] = useAuthState(getAuth());
+	const [user] = useAuth();
 
 	return (
 		<>
