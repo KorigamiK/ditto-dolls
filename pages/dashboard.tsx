@@ -1,13 +1,11 @@
 import Nav from "../components/Nav"
 
-import { getAuth } from "../src/utils/firebaseClient"
-import { useAuthState } from "react-firebase-hooks/auth"
-
 import Link from "next/link"
+import useAuth from "~/hooks/useAuth"
 
 const Dashboard = () => {
 
-	const [user, loading, error] = useAuthState(getAuth())
+	const [user, loading, error] = useAuth();
 
 	return <>
 		<Nav />
@@ -27,7 +25,7 @@ const Dashboard = () => {
 			</main>
 		</div>
 		<div>
-			{JSON.stringify(user)}
+			{/* JSON.stringify(user) */}
 		</div>
 	</>
 }

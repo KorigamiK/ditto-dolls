@@ -3,6 +3,7 @@ import { collection, getFirestore } from "firebase/firestore";
 import type { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { getAuth as firebaseGetAuth } from "firebase/auth";
 import { Review, User } from "./schema";
+import { getStorage, ref as storageRef } from 'firebase/storage';
 
 const clientCredentials = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -26,6 +27,8 @@ function assignTypes<T extends object>() {
 
 export const app = initializeApp(clientCredentials);
 export const db = getFirestore(app);
+export const storage = getStorage(app);
+
 export const getAuth = () => firebaseGetAuth(app);
 
 export const reviewsCollection = collection(db, "reviews").withConverter(
@@ -34,6 +37,7 @@ export const reviewsCollection = collection(db, "reviews").withConverter(
 export const userCollection = collection(db, "users").withConverter(
 	assignTypes<User>()
 );
+export const ordersStorageRef = storageRef(storage, 'orders');
 
 export { getDoc, getDocs, doc, collection } from "firebase/firestore";
 

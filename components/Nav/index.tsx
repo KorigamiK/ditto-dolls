@@ -14,7 +14,7 @@ const Nav = (_props: Props) => {
 						className="absolute h-28 -top-5"
 					/>
 					<div className="flex items-center justify-between gap-8 ml-36">
-						<div>Home</div>
+						<a href="/">Home</a>
 						<div>About Us</div>
 						<div>Our Products</div>
 					</div>
