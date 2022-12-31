@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { doc } from "firebase/firestore";
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler, useState, useRef } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { pricesCollection } from "~/utils/firebaseClient";
 import Footer from "../components/Footer";
@@ -8,14 +8,9 @@ import Nav from "../components/Nav";
 
 const NewOrder = () => {
 
-	// const [order, setOrder] = useState({
-	// 	peopleAmount: 0,
-	// 	petAmount: 0,
-	// 	babyAmount: 0,
-	// });
-	//
 	// const [showSupportingImage, setShowSupportingImage] = useState(false);
 
+	const formRef = useRef<HTMLFormElement>(null)
 	const [prices, loading, error] = useDocumentData(doc(pricesCollection, 'cost'))
 	const [people, setPeople] = useState(0)
 	const [pet, setPet] = useState(0)
@@ -23,10 +18,10 @@ const NewOrder = () => {
 
 	const getAmount = () => !prices ? 0 : people * prices.people + pet * prices.pet + baby * prices.baby;
 
-	const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
-		console.log('submit')
-		event.preventDefault()
-		const formData = new FormData(event.currentTarget)
+	const handleSubmit = () => {
+		const formData = new FormData(formRef.current!)
+		const data = Object.fromEntries(formData.entries())
+		console.log(data)
 	}
 
 	return (
@@ -34,8 +29,9 @@ const NewOrder = () => {
 			<Nav />
 			<div className="py-32 mt-20 bg-white-100">
 				{error && <div>{error.message}</div>}
+
 				{loading && !prices ? <div>Loading...</div> :
-					<form onSubmit={handleSubmit} className="w-4/5 mx-auto grid grid-cols-2">
+					<form ref={formRef} onSubmit={e => e.preventDefault()} className="w-4/5 mx-auto grid grid-cols-2">
 						<div className="px-10 ">
 							<div className="bg-[#D9D9D9] grid place-items-center p-20 rounded-lg">
 								<img src="/images/icons/upload.svg" alt="upload" />
@@ -164,7 +160,7 @@ const NewOrder = () => {
 										$
 										{}
 									</h3>
-									<button type="submit" className="bg-green-50 py-3 px-5 rounded-md text-white-50">
+									<button onClick={handleSubmit} className="bg-green-50 py-3 px-5 rounded-md text-white-50">
 										Add to Cart
 									</button>
 								</div>
@@ -172,6 +168,7 @@ const NewOrder = () => {
 						</div>
 					</form>
 				}
+
 			</div>
 			<Footer />
 		</>
@@ -205,14 +202,20 @@ const Counter = ({ value, onChange }: { value: number; onChange: (a: number) => 
 	return (
 		<div className="flex items-center gap-1 w-fit">
 			<button
-				onClick={() => onChange(Math.max(0, value - 1))}
+				onClick={(e) => {
+					e.stopPropagation();
+					onChange(Math.max(0, value - 1))
+				}}
 				className="h-8 aspect-square hover:bg-black/10 transition-all rounded-full grid place-items-center"
 			>
 				<img src="/images/icons/minus.svg" alt="minus" />
 			</button>
 			<h4 className="bg-[#D9D9D9]/30 p-3">{value}</h4>
 			<button
-				onClick={() => onChange(value + 1)}
+				onClick={(e) => {
+					e.stopPropagation()
+					onChange(value + 1)
+				}}
 				className="h-8 aspect-square hover:bg-black/10 transition-all rounded-full grid place-items-center"
 			>
 				<img src="/images/icons/plus.svg" alt="plus" />
