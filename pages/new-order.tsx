@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { doc } from "firebase/firestore";
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { pricesCollection } from "~/utils/firebaseClient";
 import Footer from "../components/Footer";
@@ -16,19 +16,25 @@ const NewOrder = () => {
 	//
 	// const [showSupportingImage, setShowSupportingImage] = useState(false);
 
-	const [prices, loading] = useDocumentData(doc(pricesCollection, 'cost'))
+	const [prices, loading, error] = useDocumentData(doc(pricesCollection, 'cost'))
+	const [people, setPeople] = useState(0)
+	const [pet, setPet] = useState(0)
+	const [baby, setBaby] = useState(0)
+
+	const getAmount = () => !prices ? 0 : people * prices.people + pet * prices.pet + baby * prices.baby;
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+		console.log('submit')
 		event.preventDefault()
 		const formData = new FormData(event.currentTarget)
-		console.log(formData)
 	}
 
 	return (
 		<>
 			<Nav />
 			<div className="py-32 mt-20 bg-white-100">
-				{loading && prices ? <div>Loading...</div> :
+				{error && <div>{error.message}</div>}
+				{loading && !prices ? <div>Loading...</div> :
 					<form onSubmit={handleSubmit} className="w-4/5 mx-auto grid grid-cols-2">
 						<div className="px-10 ">
 							<div className="bg-[#D9D9D9] grid place-items-center p-20 rounded-lg">
@@ -59,19 +65,20 @@ const NewOrder = () => {
 								<NumberField
 									title="Number of People"
 									price={prices!.people}
-									onChange={v => { }}
+									amount={people}
+									changeAmount={a => setPeople(a)}
 								/>
 								<NumberField
 									title="Number of Pet"
-									price={149}
-									onChange={(value) => {
-
-									}}
+									price={prices!.pet}
+									amount={pet}
+									changeAmount={a => setPet(a)}
 								/>
 								<NumberField
 									title="Number of Baby"
-									price={99}
-									onChange={(value) => { }}
+									price={prices!.baby}
+									amount={baby}
+									changeAmount={setBaby}
 								/>
 								<div className="bg-[#D9D9D9]/50 rounded-lg w-full px-5 py-3 flex justify-between items-center">
 									<h2 className="text-lg font-semibold h-8">
@@ -79,8 +86,7 @@ const NewOrder = () => {
 									</h2>
 									<div className="flex items-center gap-3">
 										<h3 className="w-16">
-											$
-											{}
+											${getAmount()}
 										</h3>
 									</div>
 								</div>
@@ -175,51 +181,38 @@ const NewOrder = () => {
 const NumberField = ({
 	title,
 	price,
-	onChange,
+	amount,
+	changeAmount
 }: {
 	title: string;
 	price: number;
-	onChange: (a: number) => void;
+	amount: number;
+	changeAmount: (amount: number) => void;
 }) => {
-	const [totalAmount, setTotalAmount] = useState(0);
-
-	useEffect(() => {
-		onChange(price * totalAmount);
-	}, [totalAmount, onChange, price]);
 
 	return (
 		<div className="bg-[#D9D9D9]/50 rounded-lg w-full px-5 py-3 flex justify-between items-center">
 			<h2 className="text-lg font-semibold">{title}</h2>
 			<div className="flex items-center gap-3">
-				<Counter onChange={(value) => setTotalAmount(value)} />
-				<h3 className="w-16">${price * totalAmount}</h3>
+				<Counter value={amount} onChange={changeAmount} />
+				<h3 className="w-16">${price}</h3>
 			</div>
 		</div>
 	);
 };
 
-const Counter = ({ onChange }: { onChange: (a: number) => void }) => {
-	const [value, setValue] = useState(0);
-
-	useEffect(() => {
-		onChange(value);
-	}, [value, onChange]);
-
+const Counter = ({ value, onChange }: { value: number; onChange: (a: number) => void }) => {
 	return (
 		<div className="flex items-center gap-1 w-fit">
 			<button
-				onClick={() => {
-					setValue((prev) => (prev >= 1 ? prev - 1 : 0));
-				}}
+				onClick={() => onChange(Math.max(0, value - 1))}
 				className="h-8 aspect-square hover:bg-black/10 transition-all rounded-full grid place-items-center"
 			>
 				<img src="/images/icons/minus.svg" alt="minus" />
 			</button>
 			<h4 className="bg-[#D9D9D9]/30 p-3">{value}</h4>
 			<button
-				onClick={() => {
-					setValue((prev) => prev + 1);
-				}}
+				onClick={() => onChange(value + 1)}
 				className="h-8 aspect-square hover:bg-black/10 transition-all rounded-full grid place-items-center"
 			>
 				<img src="/images/icons/plus.svg" alt="plus" />
