@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { collection, getFirestore } from "firebase/firestore";
 import { getAuth as firebaseGetAuth } from "firebase/auth";
-import { Order, Review, User } from "./schema";
+import { Cost, Order, Review, User } from "./schema";
 import { getStorage, ref as storageRef } from 'firebase/storage';
 import type { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 
@@ -34,6 +34,7 @@ export const getAuth = () => firebaseGetAuth(app);
 export const reviewsCollection = collection(db, "reviews").withConverter(assignTypes<Review>());
 export const userCollection = collection(db, "users").withConverter(assignTypes<User>());
 export const ordersCollection = collection(db, "orders").withConverter(assignTypes<Order>());
+export const pricesCollection = collection(db, 'prices').withConverter(assignTypes<Cost>());
 export const ordersStorageRef = storageRef(storage, 'orders');
 
 export { getDoc, getDocs, doc, collection } from "firebase/firestore";

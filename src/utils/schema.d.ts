@@ -31,3 +31,9 @@ export interface Order {
 export interface Details {
 	username: string;
 }
+
+export interface Cost {
+	baby: number;
+	pet: number;
+	people: number;
+}
